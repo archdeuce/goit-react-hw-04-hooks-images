@@ -55,6 +55,7 @@ export default function ImageGallery({ searchQuery, toggleModal }) {
 
         setTotalHits(totalHits);
         setStatus(Status.RESOLVED);
+        pageSmoothScroll();
       })
       .catch(error => {
         setError(error);
@@ -62,7 +63,6 @@ export default function ImageGallery({ searchQuery, toggleModal }) {
       })
       .finally(() => {
         setStatus(Status.IDLE);
-        pageSmoothScroll();
       });
   };
 
