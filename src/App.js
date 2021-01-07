@@ -1,25 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import Searchbar from './components/Searchbar';
+import ImageGallery from './components/ImageGallery';
+import Modal from './components/Modal';
 
-function App() {
+export default function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalImg, setModalImg] = useState('');
+  const [modalAlt, setModalAlt] = useState('');
+
+  const onSubmit = searchQuery => {
+    setSearchQuery(searchQuery);
+  };
+
+  const toggleModal = ({ isOpen, src, alt }) => {
+    setShowModal(isOpen);
+    setModalImg(src);
+    setModalAlt(alt);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ToastContainer closeOnClick autoClose={2000} />
+
+      <Searchbar onSubmit={onSubmit} />
+
+      <ImageGallery searchQuery={searchQuery} toggleModal={toggleModal} />
+
+      {showModal && (
+        <Modal
+          toggleModal={toggleModal}
+          modalImg={modalImg}
+          modalAlt={modalAlt}
+        />
+      )}
     </div>
   );
 }
-
-export default App;
